@@ -54,7 +54,6 @@ number_of_samples = size(P_valid,2);
 y_Values = [number_of_samples-errors_LAM number_of_samples-errors_Perc]/(number_of_samples)*100; %y_Values contains the percentage of well-classified digits
 x_Values = [0 1];
 bar(x_Values,y_Values);
-axis([-1 2 0 100]);
 set(gca,'XTickLabel',{'LAM', 'Perceptron'});
 title('Effiency of digit recognition using LAM and Perceptron');
 xlabel('Approach used to classify the digits');
