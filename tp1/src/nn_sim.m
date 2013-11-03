@@ -1,13 +1,5 @@
-%% Constants
-DIGITS = '0123456789+-=';
-N_DIGITS = length(DIGITS);
-
-VALIDATION_SAMPLES_PER_DIGIT = 3;
-
-%% Initializing digit size struct
-digit_size = struct();
-digit_size.width = 5;
-digit_size.height = 5;
+%% "Importing" constants and structs
+constants_structs
 
 %% Load neural networks' weights
 load W_LAM;
@@ -48,14 +40,13 @@ fprintf('# Classification results\n\n');
 fprintf('Number of wrongly classified digits by LAM:\t\t%d\n', errors_LAM);
 fprintf('Number of wrongly classified digits by Perceptron:\t%d\n', errors_Perc);
 
-% New change!
-% Bar plot to show on the report
-number_of_samples = size(P_valid,2);
-y_Values = [number_of_samples-errors_LAM number_of_samples-errors_Perc]/(number_of_samples)*100; %y_Values contains the percentage of well-classified digits
+%% Bar plot to show on the report
+number_of_samples = size(P_valid, 2);
+y_Values = [number_of_samples - errors_LAM number_of_samples - errors_Perc] / number_of_samples * 100; % y_Values contains the percentage of well-classified digits
 x_Values = [0 1];
-bar(x_Values,y_Values);
+bar(x_Values, y_Values);
 axis([-1 2 0 100]);
-set(gca,'XTickLabel',{'LAM', 'Perceptron'});
-title('Effiency of digit recognition using LAM and Perceptron');
+set(gca, 'XTickLabel', {'LAM', 'Perceptron'});
+title('Efficiency of digit recognition using LAM and Perceptron');
 xlabel('Approach used to classify the digits');
 ylabel('Percentage of well-classified digits (%)');

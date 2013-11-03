@@ -1,18 +1,11 @@
-%% Constants
-N_DIGITS = 13;
-
-TRAINING_SAMPLES_PER_DIGIT = 7;
-
-%% Initializing digit size struct
-digit_size = struct();
-digit_size.width = 5;
-digit_size.height = 5;
+%% "Importing" constants and structs
+constants_structs
 
 %% Load training data
 load P_train.dat;
 
 T = zeros(N_DIGITS, TRAINING_SAMPLES_PER_DIGIT);
-for i = 1:N_DIGITS;
+for i = 1 : N_DIGITS;
     T(i, (i - 1) * TRAINING_SAMPLES_PER_DIGIT + 1 : i * TRAINING_SAMPLES_PER_DIGIT) = ones(1, TRAINING_SAMPLES_PER_DIGIT);
 end;
 

@@ -1,22 +1,12 @@
-%% Constants
-DIGITS = '0123456789+-=';
-N_DIGITS = length(DIGITS);
-
-TRAINING_SAMPLES_PER_DIGIT = 7;
-VALIDATION_SAMPLES_PER_DIGIT = 3;
-SAMPLES_PER_DIGIT = TRAINING_SAMPLES_PER_DIGIT + VALIDATION_SAMPLES_PER_DIGIT;
-
-%% Initializing digit size struct
-digit_size = struct();
-digit_size.width = 5;
-digit_size.height = 5;
+%% "Importing" constants and structs
+constants_structs
 
 %% Load original dataset
 load P_dataset.dat;
 
 %% Split dataset into training and validation datasets
-P_train = zeros(digit_size.width * digit_size.height, N_DIGITS * TRAINING_SAMPLES_PER_DIGIT);
-P_valid = zeros(digit_size.width * digit_size.height, N_DIGITS * VALIDATION_SAMPLES_PER_DIGIT);
+P_train = zeros(DIGIT_SIZE.width * DIGIT_SIZE.height, N_DIGITS * TRAINING_SAMPLES_PER_DIGIT);
+P_valid = zeros(DIGIT_SIZE.width * DIGIT_SIZE.height, N_DIGITS * VALIDATION_SAMPLES_PER_DIGIT);
 
 for i = 1 : N_DIGITS; 
     % Shuffle i digit indexes on the dataset

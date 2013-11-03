@@ -1,5 +1,5 @@
-%% Constants
-DIGITS = '0123456789+-=';
+%% "Importing" constants and structs
+constants_structs
 
 %% Load data to be recognized
 load P.dat;
