@@ -22,13 +22,24 @@ save W_Perc W_Perc;
 
 %% Verifying the LAM training
 A_LAM = W_LAM * P_train;
-A_LAM = round(A_LAM);
+[~, class_LAM] = max(A_LAM);
+
+A_LAM = zeros(size(A_LAM));
+for i = 1 : N_DIGITS * TRAINING_SAMPLES_PER_DIGIT
+    A_LAM(class_LAM(i), i) = 1;
+end
 
 disp('LAM training results (T ~= A):');
 disp(sum(sum(T ~= A_LAM)));
 
 %% Verifying the Perceptron training
 A_Perc = sim(W_Perc, P_train);
+[~, class_Perc] = max(A_Perc);
+
+A_LAM = zeros(size(A_Perc));
+for i = 1 : N_DIGITS * TRAINING_SAMPLES_PER_DIGIT
+    A_Perc(class_Perc(i), i) = 1;
+end
 
 disp('Perceptron training results (T ~= A):');
 disp(sum(sum(T ~= A_Perc)));
