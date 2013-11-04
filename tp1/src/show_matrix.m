@@ -1,7 +1,7 @@
-function varargout = show_matrix(digit_size,img,placement)
+function varargout = show_matrix(tamanho, img, placement)
 
-img_size(1)=digit_size.height;
-img_size(2)=digit_size.width; 
+img_size(1)=tamanho.height;
+img_size(2)=tamanho.width; 
 
 % SHOWIM Displays given image(s).
 %
@@ -75,11 +75,11 @@ if num_data > 1,
     cnt=cnt+1;
     subplot(row,col,cnt);
     
-    h = [h, show_matrix(img(:,cnt),img_size)];
+    h = [h, show_img(img(:,cnt),img_size)];
   end
   
 else
-  h = imshow(reshape(img,img_size(1),img_size(2)),[]);
+  h = show_img(reshape(img,img_size(1),img_size(2)),[]);
 end
 
 if nargout > 0,

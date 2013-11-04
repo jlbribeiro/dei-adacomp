@@ -1,4 +1,4 @@
-function varargout = show_im(img,img_size,placement)
+function varargout = showim(img,img_size,placement)
 % SHOWIM Displays given image(s).
 %
 % Synopsis:
@@ -70,7 +70,7 @@ if num_data > 1,
     cnt=cnt+1;
     subplot(row,col,cnt);
     
-    h = [h, show_im(img(:,cnt),img_size)];
+    h = [h, showim(img(:,cnt),img_size)];
   end
   
 else
