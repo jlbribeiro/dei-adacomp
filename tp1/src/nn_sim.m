@@ -19,7 +19,7 @@ for i = 1 : N_DIGITS
     for j = 1 : VALIDATION_SAMPLES_PER_DIGIT
         
         P_i = P_valid(:, (i - 1) * VALIDATION_SAMPLES_PER_DIGIT + j);
-        disp(char(digit_column_to_matrix(DIGIT_SIZE, P_i) * '0'));
+        disp(char(digit_column_to_matrix(DIGIT_SIZE, P_i) * ('0' - '.') + '.'));
         fprintf('\n');
 
         A_LAM = W_LAM * P_i;

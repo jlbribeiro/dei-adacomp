@@ -13,7 +13,7 @@ for i = 1 : size(P, 2);
     P_i = P(:, i);
 
     fprintf('\n');
-    disp(char(digit_column_to_matrix(DIGIT_SIZE, P_i) * '0'));
+    disp(char(digit_column_to_matrix(DIGIT_SIZE, P_i) * ('0' - '.') + '.'));
     fprintf('\n');
 
     % A_LAM = W_LAM * P_i;
