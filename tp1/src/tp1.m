@@ -12,10 +12,18 @@ expression = zeros(1, size(P, 2));
 for i = 1 : size(P, 2);
     P_i = P(:, i);
 
+    fprintf('\n');
+    disp(char(digit_column_to_matrix(DIGIT_SIZE, P_i) * '0'));
+    fprintf('\n');
+
+    % A_LAM = W_LAM * P_i;
     A_Perc = sim(W_Perc, P_i);
-    [~, digit_i_Perc] = max(A_Perc);
+
+    % [~, digit_i] = max(A_LAM);
+    [~, digit_i] = max(A_Perc);
     
-    expression(i) = DIGITS(digit_i_Perc);
+    expression(i) = DIGITS(digit_i);
+
     fprintf('Recognized symbol:\t%s\n', expression(i));
 end;
 
