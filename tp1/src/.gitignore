@@ -1,3 +1,5 @@
 *~
 *.dat
 *.mat
+!best_W_LAM.mat
+!best_W_Perc.mat
