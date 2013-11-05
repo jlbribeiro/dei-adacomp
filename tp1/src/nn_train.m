@@ -16,6 +16,7 @@ save W_LAM W_LAM;
 
 %% Training a Perceptron
 W_Perc = newp(P_train, T);
+W_Perc.trainParam.showWindow = false;
 W_Perc = train(W_Perc, P_train, T);
 
 save W_Perc W_Perc;
