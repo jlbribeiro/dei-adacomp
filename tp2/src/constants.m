@@ -1,15 +1,13 @@
 %% Constants
-%DIGITS = '0123456789+-=';
-%DIGITS_T = '0123456789pme';
-%N_DIGITS = length(DIGITS);
+DEBUG = true;
 
 TRAINING_RATIO = 0.7;
-VALIDATION_RATIO = 0.3;
-%SAMPLES_PER_DIGIT = TRAINING_SAMPLES_PER_DIGIT + VALIDATION_SAMPLES_PER_DIGIT;
+VALIDATION_RATIO = 1 - TRAINING_RATIO;
 
 N_RUNS = 30;
 
-%% Structs
-DIGIT_SIZE = struct();
-DIGIT_SIZE.width = 5;
-DIGIT_SIZE.height = 5;
+%% Training
+N_HIDDEN_NEURONS = 15;    % Value to be fine-tuned
+LEARNING_RATE    = 0.001; % Value to be fine-tuned
+N_EPOCHS         = 100;   % Value to be fine-tuned
+TRAINING_METHOD  ='trainlm';
