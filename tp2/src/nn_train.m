@@ -17,7 +17,7 @@ function [net] = nn_train( P, T )
     %% Setting parameters
     net.trainParam.epochs = N_EPOCHS;
     net.trainParam.show = 50;
-    net.trainParam.goal = 1e-6;
+    net.trainParam.goal = GOAL;
     net.trainParam.lr = LEARNING_RATE;
     net.performFcn = 'sse';
     % net.trainParam.mu_max = 1e1;
