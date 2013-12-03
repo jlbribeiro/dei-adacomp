@@ -43,13 +43,14 @@ fprintf('LEARNING_RATE = %.5f\n', LEARNING_RATE);
 fprintf('N_HIDDEN_NEURONS = %d\n', N_HIDDEN_NEURONS);
 fprintf('N_FEATURES = %d\n', N_FEATURES);
 fprintf('N_EPOCHS = %d\n', N_EPOCHS);
+fprintf('INPUT_NORMALIZATION = %d\n', INPUT_NORMALIZATION);
 fprintf('\n');
 fprintf('performance = %.3f\n', percCorrect_avg);
 fprintf('sensibility = %.3f\n', sensibility_avg);
 fprintf('specificity = %.3f\n', specificity_avg);
 fprintf('\n');
 fprintf('Plotting: performance_plot(%f, %f, %f)\n', percCorrect_avg, sensibility_avg, specificity_avg);
-fprintf('===\n\n');
+fprintf('\n===\n\n');
 
 if DEBUG
     performance_plot(percCorrect_avg, sensibility_avg, specificity_avg);
