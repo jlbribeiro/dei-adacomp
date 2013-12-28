@@ -74,7 +74,7 @@ for runs=1:N_RUNS
     if DEBUG
         figure;
         plot(t,R,'g',t,Y,'r',t,U,'b','LineWidth',2);
-        legend('Ref','Out','Inp')
+%         legend('Ref','Out','Inp')
         pause
     end
     
