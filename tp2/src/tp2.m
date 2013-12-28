@@ -1,17 +1,16 @@
-%% FIXME
-%% Dimensionality Reduction will not use the same features used during training, throwing an error (dimensions mismatch)
-
 %% Contest data validation
-load('../dataset/test_dataset'); %% loads X2
+load('dataset2'); %% loads X2
 
 %% Contest data should be normalized
-P_contest = dataset_normalize_input(X2);
-P_contest = dataset_dimensionality_reduction(P_contest);
+X2 = dataset_normalize_input(X2);
+X2 = dataset_dimensionality_reduction(X2, N_FEATURES);
 
-P_contest = P_contest';
+X2 = X2';
 
 %% Load NN
-load('net')
+load('best_net');
 
-Y = nn_sim(net, P_contest);
-Y = round(Y);
+Y2 = nn_sim(net, X2);
+Y2 = round(Y2);
+
+save('Y2.dat', 'Y2');

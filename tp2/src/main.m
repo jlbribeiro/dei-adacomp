@@ -4,7 +4,7 @@ constants;
 dataset_input_setup;
 
 %% Accumulators
-percCorrect_acc = 0;
+performance_acc = 0;
 sensibility_acc = 0;
 specificity_acc = 0;
 
@@ -26,14 +26,14 @@ for i = 1 : N_RUNS
     T_validation = T1_validation';
 
     %% NN validation
-    [Y, percCorrect, sensibility, specificity] = nn_sim(net, P_validation, T_validation);
+    [Y, performance, sensibility, specificity] = nn_sim(net, P_validation, T_validation);
 
-    percCorrect_acc = percCorrect_acc + percCorrect;
+    performance_acc = performance_acc + performance;
     sensibility_acc = sensibility_acc + sensibility;
     specificity_acc = specificity_acc + specificity;
 end
 
-percCorrect_avg = percCorrect_acc / N_RUNS;
+performance_avg = performance_acc / N_RUNS;
 sensibility_avg = sensibility_acc / N_RUNS;
 specificity_avg = specificity_acc / N_RUNS;
 
@@ -45,15 +45,15 @@ fprintf('N_FEATURES = %d\n', N_FEATURES);
 fprintf('N_EPOCHS = %d\n', N_EPOCHS);
 fprintf('INPUT_NORMALIZATION = %d\n', INPUT_NORMALIZATION);
 fprintf('\n');
-fprintf('performance = %.3f\n', percCorrect_avg);
+fprintf('performance = %.3f\n', performance_avg);
 fprintf('sensibility = %.3f\n', sensibility_avg);
 fprintf('specificity = %.3f\n', specificity_avg);
 fprintf('\n');
-fprintf('Plotting: performance_plot(%f, %f, %f)\n', percCorrect_avg, sensibility_avg, specificity_avg);
+fprintf('Plotting: performance_plot(%f, %f, %f)\n', performance_avg, sensibility_avg, specificity_avg);
 fprintf('\n===\n\n');
 
 if DEBUG
-    performance_plot(percCorrect_avg, sensibility_avg, specificity_avg);
+    performance_plot(performance_avg, sensibility_avg, specificity_avg);
 end
 
 %% TODO: remove
