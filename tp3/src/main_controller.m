@@ -39,10 +39,10 @@ for runs=1:N_RUNS
         delta_uk = evalfis(SCALE_FACTOR*[ek delta_ek],controller); % Approach 3 (Fuzzy system)
         uk = uk_1 + delta_uk * 100;
         fprintf('k: %d\n', k);
-        fprintf('rk:       %.15f\n', rk);
-        fprintf('yk:       %.15f\n', yk);
-        fprintf('ek:       %.15f\n', ek);
-        fprintf('delta_ek: %.15f\n', delta_ek);
+        fprintf('rk:       %.15f\n', SCALE_FACTOR * rk);
+        fprintf('yk:       %.15f\n', SCALE_FACTOR * yk);
+        fprintf('ek:       %.15f\n', SCALE_FACTOR * ek);
+        fprintf('delta_ek: %.15f\n', SCALE_FACTOR * delta_ek);
         fprintf('uk:       %.15f\n', uk);
         fprintf('delta_uk: %.15f\n', delta_uk);
         fprintf('\n');
