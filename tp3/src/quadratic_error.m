@@ -6,7 +6,7 @@ function [ error ] = quadratic_error( varargin )
     %   [error] = quadratic_error(values)
     %
     % Description:
-    %   This function calculates the quadratic error diven a single 
+    %   This function calculates the quadratic error given a single 
     %   vector or two vectors.
     %
     % Output:
