@@ -21,7 +21,7 @@ for runs=1:N_RUNS
     U = zeros(N,1);         % Input (Power)
 
     %---------------------------- Controlador
-    controller = readfis('controlador');
+    controller = readfis('controlador_5');
 
     for k=1:N
 
@@ -38,15 +38,17 @@ for runs=1:N_RUNS
         %uk = rk;  %malha aberta, i.e, controlo=referencia % Approach 2
         delta_uk = evalfis(SCALE_FACTOR*[ek delta_ek],controller); % Approach 3 (Fuzzy system)
         uk = uk_1 + delta_uk * 100;
-        fprintf('k: %d\n', k);
-        fprintf('rk:       %.15f\n', SCALE_FACTOR * rk);
-        fprintf('yk:       %.15f\n', SCALE_FACTOR * yk);
-        fprintf('ek:       %.15f\n', SCALE_FACTOR * ek);
-        fprintf('delta_ek: %.15f\n', SCALE_FACTOR * delta_ek);
-        fprintf('uk:       %.15f\n', uk);
-        fprintf('delta_uk: %.15f\n', delta_uk);
-        fprintf('\n');
-
+        if DEBUG
+            fprintf('k: %d\n', k);
+            fprintf('rk:       %.15f\n', SCALE_FACTOR * rk);
+            fprintf('yk:       %.15f\n', SCALE_FACTOR * yk);
+            fprintf('ek:       %.15f\n', SCALE_FACTOR * ek);
+            fprintf('delta_ek: %.15f\n', SCALE_FACTOR * delta_ek);
+            fprintf('uk:       %.15f\n', uk);
+            fprintf('delta_uk: %.15f\n', delta_uk);
+            fprintf('\n');
+        end
+            
         % Power should be a value between 0 and 100
         if uk < 0
             uk = 0;
@@ -68,7 +70,7 @@ for runs=1:N_RUNS
     end
 
     %% Evaluating performance
-    errors(runs) = quadratic_error(R,Y) + quadratic_error(uk);
+    errors(runs) = (quadratic_error(R,Y) + quadratic_error(U))/N;
 
     %% Plot Data Results
     if DEBUG
