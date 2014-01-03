@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{color}
 
@@ -59,9 +60,9 @@ A figura~\ref{nn_architecture} representa a arquitectura do sistema difuso usado
 
 O conjunto de regras que gerem as acções a tomar em função das entradas foi feito com especial cuidado uma vez que, entre outros factores, a definição das regras tem impacto na performance do sistema difuso.
 
-O grupo decidiu implementar dois controladores, e definiu cada um da seguinte forma:
-\begin{itemize}
-\item \textbf{Controlador de 3 termos} \\
+O grupo decidiu implementar dois controladores que de seguida se apresentam.
+
+\subsection{Controlador de 3 termos}
 Para este controlador existem as três variáveis linguísticas mencionadas acima ($E$,$\Delta E$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{3_terms_fuzzy}.
@@ -71,21 +72,35 @@ A tabela de regras para este controlador está representada na tabela~\ref{3_ter
 	\caption{Tabela de regras do controlador difuso de 3 termos}
 	\label{3_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|}
+	\hline
+	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{ZO} & \textbf{P} \\ 
 	\hline 
-	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
+	\textbf{N} & N & N & ZO \\ 
 	\hline 
-	\textbf{N} & N & N & Z \\ 
+	\textbf{ZO} & ZO & ZO & ZO \\ 
 	\hline 
-	\textbf{Z} & Z & Z & Z \\ 
-	\hline 
-	\textbf{P} & Z & P & P \\ 
+	\textbf{P} & ZO & P & P \\ 
 	\hline 
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
 
+Esta tabela traduz-se na seguinte lista de regras:
+\begin{itemize}
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} N>
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} N>
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} P>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} P>
+\end{itemize}
 
-\item \textbf{Controlador de 5 termos} \\
+\clearpage
+
+\subsection{Controlador de 5 termos}
 Para este controlador existem as mesmas variáveis linguísticas e cada uma destas variavéis tem cinco termos linguísticos (${NG,NP,ZO,PP,PG}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{5_terms_fuzzy}.
@@ -95,14 +110,14 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\caption{Tabela de regras do controlador difuso de 5 termos}
 	\label{5_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|c|c|}
-	\hline 
-	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{Z} & \textbf{PP} & \textbf{PG} \\ 
+	\hline
+	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{ZO} & \textbf{PP} & \textbf{PG} \\ 
 	\hline 
 	\textbf{NG} & NG & NG & NG & NP & NP \\ 
 	\hline 
 	\textbf{NP} & NP & NP & NP & NP & NG \\ 
 	\hline 
-	\textbf{ZO} & NP & Z & Z & Z & PP \\ 
+	\textbf{ZO} & NP & ZO & ZO & ZO & PP \\ 
 	\hline
 	\textbf{PP} & PG & PP & PP & PP & PP \\ 
 	\hline 
@@ -111,6 +126,34 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
+
+Esta tabela traduz-se na seguinte lista de regras:
+\begin{itemize}
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
 \end{itemize}
 
 \clearpage
