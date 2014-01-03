@@ -157,6 +157,30 @@ Esta tabela traduz-se na seguinte lista de regras:
 \end{itemize}
 
 \clearpage
+
+\subsection{Método de Implicação e Agregação de Regras}
+Após a aplicação do \textit{fuzzy operator} e obtido o valor de verdade para o antecedente de cada regra, é necessário calcular o conjunto difuso correspondente a cada variável de saída usando esse valor, por regra. Uma das funções mais utilizadas neste processo é a função de \textbf{mínimo} (\texttt{min}), mas existem outras (nomeadamente a de \textbf{produto algébrico}, \texttt{prod}).
+
+Obtidos os conjuntos difusos por varíavel de saída por regra, surge a necessidade de agregar esses conjuntos num único conjunto difuso, naquilo que se denomina Agregação. Uma das funções mais utilizadas neste processo é a função de \textbf{máximo} (\texttt{max}); no entanto, são também utilizadas outras como a \textbf{soma algébrica} (\texttt{sum}) ou o \textbf{OR probabilístico} (\texttt{probor}).
+
+Para o nosso estudo paramétrico, decidimos definir dois conjuntos de funções a utilizar para as operações de \texttt{AND}, \texttt{OR}, \texttt{Implicação} e \texttt{Agregação}, como se apresenta na tabela \ref{and_or_imp_agg_table}.
+
+\begin{table}[!h]
+\centering
+	\caption{Tabela de funções utilizadas para as operações de \texttt{AND}, \texttt{OR}, \texttt{Implicação} e \texttt{Agregação}.}
+	\label{and_or_imp_agg_table}
+	\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	Function set & \texttt{AND} & \texttt{OR} & \texttt{IMP} & \texttt{AGG} \\
+	\hline 
+	\texttt{zadeh} & \texttt{min} & \texttt{max} & \texttt{min} & \texttt{max} \\ 
+	\hline 
+	\texttt{algebraic} & \texttt{prod} & \texttt{probor} & \texttt{prod} & \texttt{sum} \\ 
+	\hline 
+	\end{tabular} 
+	%\vspace{-1cm}
+\end{table}
+
 % Gráficos com os resultados. Análise e interpretação.
 \section{Estudo paramétrico}
 \indent \indent Nesta secção é explicada a metodologia de testes seguida para levar a cabo são apresentados os resultados do estudo paramétrico efectuado para obtenção do resultado óptimo encontrado.

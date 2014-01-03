@@ -12,4 +12,4 @@ GAIN = 0.07;        % System gain (to multiply with the variation)
 SCALE_FACTOR = 0.02;
 CONTROLLER = 'controller';
 N_RUNS = 30;
-DEBUG = false;
+DEBUG = true;
