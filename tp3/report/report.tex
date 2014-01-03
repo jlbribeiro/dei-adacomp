@@ -1,6 +1,5 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{color}
 
@@ -36,19 +35,6 @@ A parte que foi mais focada na realização deste trabalho foi o estudo paramét
 \section{Concepção da rede difusa}
 \indent \indent Nesta secção estão descritas a arquitectura da rede usada para o trabalho bem como outras decisões tomadas que são relevantes para o desempenho do controlador.
 
-\subsection{Entradas}
-\indent \indent A arquitectura do sistema difuso usada para o trabalho prático consiste em duas entradas, uma delas que representa o erro num instante $k$ ($E$) como a diferença entre a temperatura desejada e a temperatura do ar à saída do aquecedor nesse mesmo instante ($E = R_{k} - Y_{k}$), e a outra representando a variação do erro ($\Delta E$) como a diferença entre o erro no instante $k$ e $k-1$ ($\Delta E=E_{k}-E_{k-1}$).
-
-Relativamente ao \textbf{universo de discurso}, considerámos que tanto as variáveis $E$ e $\Delta e$ tomariam valores entre -1 e 1, por serem valores \textit{default} usados para fins de normalização e no contexto do problema ser possível existir variações negativas ou positivas de temperatura.
-
-Os valores de erro e variação de erro que serviram de entrada para o sistema de difuso foram alvos de normalização de modo a mapear os valores de temperatura e potência para valores correspondentes dentro do universo de discurso. Assim sendo, em relação aos \textbf{factores de normalização} utilizados, optámos por um usar um factor de escala de \textbf{0.02} para conseguir transformar a gama de valores de temperatura (entre 0 e 50ºC) no universo de discurso definido acima. Para o caso da potência, à saída, aplicou-se um factor de escala de \textbf{100} para fazer a transformação contrária e mapear valores do universo de discurso para a gama de valores que a potência pode tomar (entre 0 e 100\%). 
-
-%Em relação às saídas do sistema difuso, apenas foi definida uma, que representa a variação de potência a aplicar à grelha de aquecimento ($\Delta U$).
-
-%No que diz respeito às caracte
-
-As restantes características da rede que são consideradas relevantes não são mencionadas aqui por terem sido alvo de estudo paramétrico.
-
 A figura~\ref{nn_architecture} representa a arquitectura do sistema difuso usado.
 
 \begin{figure}[!h]
@@ -58,11 +44,62 @@ A figura~\ref{nn_architecture} representa a arquitectura do sistema difuso usado
   \label{nn_architecture}
 \end{figure}
 
-O conjunto de regras que gerem as acções a tomar em função das entradas foi feito com especial cuidado uma vez que, entre outros factores, a definição das regras tem impacto na performance do sistema difuso.
+\subsection{Entradas}
+\indent \indent A arquitectura do sistema difuso usada para o trabalho prático consiste em duas entradas, uma delas que representa o erro num instante $k$ ($E$) como a diferença entre a temperatura desejada e a temperatura do ar à saída do aquecedor nesse mesmo instante ($E = R_{k} - Y_{k}$), e a outra representando a variação do erro ($\Delta E$) como a diferença entre o erro no instante $k$ e $k-1$ ($\Delta E=E_{k}-E_{k-1}$).
 
-O grupo decidiu implementar dois controladores que de seguida se apresentam.
+Relativamente ao \textbf{universo de discurso}, considerámos que a variável $E$, poderia tomar valores entre -50 e 50 e a variável $\Delta e$ tomaria valores entre -100 e 100.
 
-\subsection{Controlador de 3 termos}
+Os valores de erro e variação de erro que serviram de entrada para o sistema de difuso foram alvo de normalização, de modo a mapear os valores de temperatura e potência para a gama de valores nas quais as funções de pertença estão definidas. Assim sendo, em relação aos \textbf{factores de normalização} utilizados, optámos por um usar um factor de escala de \textbf{0.02} para o erro e de \textbf{0.01} para a variação do erro, de modo a conseguir transformar o universo de discurso das variáveis em valores que variam entre -1 e 1  
+
+Já para o caso da potência, à saída, aplicou-se um factor de escala de \textbf{100} para fazer a transformação contrária e mapear valores da saída, entre -1 e 1, para a gama de valores que a potência pode tomar (entre 0 e 100\%). 
+
+%Em relação às saídas do sistema difuso, apenas foi definida uma, que representa a variação de potência a aplicar à grelha de aquecimento ($\Delta U$).
+
+No que diz respeito às características das funções da pertença, foram consideradas 4 abordagens para a execução do estudo paramétrica:
+\begin{itemize}
+\item \textbf{Termos linguísticos}:(${N,ZO,P}$) e \textbf{Tipo de funções de pertença}: Triangulares
+\item \textbf{Termos linguísticos}:(${N,ZO,P}$) e \textbf{Tipo de funções de pertença}: Gaussianas
+\item \textbf{Termos linguísticos}:(${NG,NP,ZO,PP,PG}$) e \textbf{Tipo de funções de pertença}: Triangulares
+\item \textbf{Termos linguísticos}:(${NG,NP,ZO,PP,PG}$) e \textbf{Tipo de funções de pertença}: Gaussianas
+\end{itemize}
+
+Cada uma das abordagens foi replicada para todas as variáveis linguísticas, enquanto que o \textit{offset} de cada função de pertença foi sempre o mesmo, independentemente da abordagem.
+Cada uma destas está representada, respectivamente, pelas figuras~\ref{trimf_3}~\ref{gauss_3},~\ref{trimf_5} e ~\ref{gauss_5}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=3in]{figures/trimf3}
+  \caption{3 termos linguísticos com funções de pertença tringulares}
+  \label{trimf_3}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=3in]{figures/gauss3}
+  \caption{3 termos linguísticos com funções de pertença gaussianas}
+  \label{gauss_3}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=3in]{figures/trimf5}
+  \caption{5 termos linguísticos com funções de pertença tringulares}
+  \label{trimf_5}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=3in]{figures/gauss5}
+  \caption{5 termos linguísticos com funções de pertença gaussianas}
+  \label{gauss_5}
+\end{figure}
+
+\subsection{Base de Regras}
+\indent \indent O conjunto de regras que gerem as acções a tomar em função das entradas foi feito com especial cuidado uma vez que, entre outros factores, a definição das regras tem impacto na performance do sistema difuso.
+
+O grupo decidiu implementar dois controladores, e definiu cada um da seguinte forma:
+\begin{itemize}
+\item \textbf{Controlador de 3 termos} \\
 Para este controlador existem as três variáveis linguísticas mencionadas acima ($E$,$\Delta E$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{3_terms_fuzzy}.
@@ -72,35 +109,21 @@ A tabela de regras para este controlador está representada na tabela~\ref{3_ter
 	\caption{Tabela de regras do controlador difuso de 3 termos}
 	\label{3_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|}
-	\hline
-	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{ZO} & \textbf{P} \\ 
 	\hline 
-	\textbf{N} & N & N & ZO \\ 
+	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
 	\hline 
-	\textbf{ZO} & ZO & ZO & ZO \\ 
+	\textbf{N} & N & N & Z \\ 
 	\hline 
-	\textbf{P} & ZO & P & P \\ 
+	\textbf{Z} & Z & Z & Z \\ 
+	\hline 
+	\textbf{P} & Z & P & P \\ 
 	\hline 
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
 
-Esta tabela traduz-se na seguinte lista de regras:
-\begin{itemize}
-	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} N>
-	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} N>
-	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} P>
-	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} P>
-\end{itemize}
 
-\clearpage
-
-\subsection{Controlador de 5 termos}
+\item \textbf{Controlador de 5 termos} \\
 Para este controlador existem as mesmas variáveis linguísticas e cada uma destas variavéis tem cinco termos linguísticos (${NG,NP,ZO,PP,PG}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{5_terms_fuzzy}.
@@ -110,14 +133,14 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\caption{Tabela de regras do controlador difuso de 5 termos}
 	\label{5_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|c|c|}
-	\hline
-	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{ZO} & \textbf{PP} & \textbf{PG} \\ 
+	\hline 
+	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{Z} & \textbf{PP} & \textbf{PG} \\ 
 	\hline 
 	\textbf{NG} & NG & NG & NG & NP & NP \\ 
 	\hline 
 	\textbf{NP} & NP & NP & NP & NP & NG \\ 
 	\hline 
-	\textbf{ZO} & NP & ZO & ZO & ZO & PP \\ 
+	\textbf{ZO} & NP & Z & Z & Z & PP \\ 
 	\hline
 	\textbf{PP} & PG & PP & PP & PP & PP \\ 
 	\hline 
@@ -126,34 +149,6 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
-
-Esta tabela traduz-se na seguinte lista de regras:
-\begin{itemize}
-	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
-	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
-	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
-	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
-	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
-	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
-	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
-	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
-	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
 \end{itemize}
 
 \clearpage
@@ -183,11 +178,8 @@ Para o nosso estudo paramétrico, decidimos definir dois conjuntos de funções 
 
 % Gráficos com os resultados. Análise e interpretação.
 \section{Estudo paramétrico}
-\indent \indent Nesta secção é explicada a metodologia de testes seguida para levar a cabo são apresentados os resultados do estudo paramétrico efectuado para obtenção do resultado óptimo encontrado.
+\indent \indent Nesta secção é explicada a metodologia de testes seguida para levar a cabo o estudo paramétrico e são apresentados os resultados desse estudo.
 
-Neste estudo, a ordem dos parâmetros testados torna-se fulcral para melhor explorar o espaço de combinações sem o fazer de forma exaustiva. No fim de cada variação paramétrica, o valor que optimizava as métricas usadas para medir a performance da rede neuronal era fixado na variação paramétrica seguinte. Por exemplo, após a determinação do número óptimo de neurónios para a camada escondida, esse valor era fixado para os restantes testes.
-
-No caso do estudo do coeficiente de aprendizagem, tal não se aplica uma vez que este foi o 
 \begin{table}[!h]
 \centering
 	\caption{Tabela de regras do controlador difuso de 5 termos}
@@ -238,21 +230,21 @@ No caso do estudo do coeficiente de aprendizagem, tal não se aplica uma vez que
 
 Atingimos estes valores usando a seguinte parametrização:
 \begin{itemize}
-\item Número de termos linguísticos:
-\item Tipo de funções de pertença:
-\item Factores de Normalização:
-\item xxx
-\item yyy
-\item zzz
-%\item Goal (Erro de treino) ???
+\item Factor de normalização: \textbf{0.02} para $E$, \textbf{0.01} para $\Delta E$, \textbf{100} para $\Delta U$
+\item Número de termos linguísticos: \textbf{3}
+\item Tipo de funções de pertença: %\textbf{Gaussianas}
+\item Base de regras: \textbf{Ver tabela~\ref{3_terms_fuzzy}}
+\item Mecanismo de inferência: % \textbf{zadeh}
+\item Método de desfuzificação: %\textbf{centroid}
 \end{itemize}
 
 O gráfico que representa os valores da referência, temperatura e controlo, para o melhor sistema difuso obtido, está exibido na figura ~\ref{best_fuzzy_results}. Os valores de entrada que nos foram fornecidos tiveram em conta um intervalo de tempo de 10 segundos e um intervalo de amostragem de 0.1s.
+
 %\begin{figure}[h!]
 %  \centering
-%  \includegraphics[width=5in]{figures/best_nn}
-%  \caption{Performance, Sensibilidade e Especificidade da melhor rede encontrada}
-%  \label{best_nn}
+%  \includegraphics[width=5in]{figures/best_fuzzy_network}
+%  \caption{Valores de Referência, Temperatura e potência para a melhor rede difusa}
+%   \label{best_fuzzy_network}
 %\end{figure}
 
 
