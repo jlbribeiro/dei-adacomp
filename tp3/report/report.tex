@@ -21,12 +21,12 @@
 
 Este objectivo foi atingido fazendo um estudo paramétrico tendo em conta os seguintes parâmetros de estudo:
 \begin{itemize}
-\item xxx
-\item yyy
-\item zzz
-\item xx xx xx
-\item yy yy yy
-\item zz zz zz
+\item Factor de normalização
+\item Conjunto e número de termos linguísticos
+\item Tipo de funções de pertença
+\item Base de regras
+\item Mecanismo de inferência
+\item Método de desfuzificação
 \end{itemize}
 
 A parte que foi mais focada na realização deste trabalho foi o estudo paramétrico feito com base nos parâmetros acima indicados. Com base nos resultados obtidos, procurámos uma solução que nos permitisse chegar à combinação dos parâmetros que minimizasse o erro da rede, para as referências que nos foram fornecidas.
@@ -65,11 +65,11 @@ A tabela de regras para este controlador está representada na tabela~\ref{3_ter
 	\hline 
 	$e_{k}$ $\backslash$ $\Delta e$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
 	\hline 
-	\textbf{N} & N  & N & N \\ 
+	\textbf{N} & N  & N & Z \\ 
 	\hline 
 	\textbf{Z} & Z & Z & Z \\ 
 	\hline 
-	\textbf{P} & P & P & P \\ 
+	\textbf{P} & Z & P & P \\ 
 	\hline 
 	\end{tabular} 
 	%\vspace{-1cm}
