@@ -33,9 +33,18 @@ A parte que foi mais focada na realização deste trabalho foi o estudo paramét
 
 \clearpage
 \section{Concepção da rede difusa}
-\indent \indent Nesta secção estão descritas a arquitectura da rede usada para o trabalho e a forma como o conjunto de regras da rede difusa foi definido.
+\indent \indent Nesta secção estão descritas a arquitectura da rede usada para o trabalho bem como outras decisões tomadas que são relevantes para o desempenho do controlador.
 
-A arquitectura do sistema difuso usada para o trabalho prático consiste em duas entradas, uma delas que representa o erro num instante $k$ ($e_{k}$) como a diferença entre a temperatura desejada e a temperatura do ar à saída do aquecedor nesse mesmo instante ($e_{k} = R_{k} - Y_{k}$), e a outra representando a variação do erro ($\Delta e$) como a diferença entre o erro no instante $k$ e $k-1$ ($\Delta e=e_{k}-e_{k-1}$). Em relação às saídas do sistema difuso, apenas foi definida uma, que representa a variação de potência a aplicar à grelha de aquecimento ($\Delta U$).
+\subsection{Entradas}
+\indent \indent A arquitectura do sistema difuso usada para o trabalho prático consiste em duas entradas, uma delas que representa o erro num instante $k$ ($E$) como a diferença entre a temperatura desejada e a temperatura do ar à saída do aquecedor nesse mesmo instante ($E = R_{k} - Y_{k}$), e a outra representando a variação do erro ($\Delta E$) como a diferença entre o erro no instante $k$ e $k-1$ ($\Delta E=E_{k}-E_{k-1}$).
+
+Relativamente ao \textbf{universo de discurso}, considerámos que tanto as variáveis $E$ e $\Delta e$ tomariam valores entre -1 e 1, por serem valores \textit{default} usados para fins de normalização e no contexto do problema ser possível existir variações negativas ou positivas de temperatura.
+
+Os valores de erro e variação de erro que serviram de entrada para o sistema de difuso foram alvos de normalização de modo a mapear os valores de temperatura e potência para valores correspondentes dentro do universo de discurso. Assim sendo, em relação aos \textbf{factores de normalização} utilizados, optámos por um usar um factor de escala de \textbf{0.02} para conseguir transformar a gama de valores de temperatura (entre 0 e 50ºC) no universo de discurso definido acima. Para o caso da potência, à saída, aplicou-se um factor de escala de \textbf{100} para fazer a transformação contrária e mapear valores do universo de discurso para a gama de valores que a potência pode tomar (entre 0 e 100\%). 
+
+%Em relação às saídas do sistema difuso, apenas foi definida uma, que representa a variação de potência a aplicar à grelha de aquecimento ($\Delta U$).
+
+%No que diz respeito às caracte
 
 As restantes características da rede que são consideradas relevantes não são mencionadas aqui por terem sido alvo de estudo paramétrico.
 
@@ -53,7 +62,7 @@ O conjunto de regras que gerem as acções a tomar em função das entradas foi 
 O grupo decidiu implementar dois controladores, e definiu cada um da seguinte forma:
 \begin{itemize}
 \item \textbf{Controlador de 3 termos} \\
-Para este controlador existem as três variáveis linguísticas mencionadas acima ($e_{k}$,$\Delta e$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
+Para este controlador existem as três variáveis linguísticas mencionadas acima ($E$,$\Delta E$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{3_terms_fuzzy}.
 
@@ -63,7 +72,7 @@ A tabela de regras para este controlador está representada na tabela~\ref{3_ter
 	\label{3_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|}
 	\hline 
-	$e_{k}$ $\backslash$ $\Delta e$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
+	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
 	\hline 
 	\textbf{N} & N & N & Z \\ 
 	\hline 
@@ -87,7 +96,7 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\label{5_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|c|c|}
 	\hline 
-	$e_{k}$ $\backslash$ $\Delta e$ & \textbf{NG} & \textbf{NP} & \textbf{Z} & \textbf{PP} & \textbf{PG} \\ 
+	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{Z} & \textbf{PP} & \textbf{PG} \\ 
 	\hline 
 	\textbf{NG} & NG & NG & NG & NP & NP \\ 
 	\hline 
@@ -112,8 +121,49 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 Neste estudo, a ordem dos parâmetros testados torna-se fulcral para melhor explorar o espaço de combinações sem o fazer de forma exaustiva. No fim de cada variação paramétrica, o valor que optimizava as métricas usadas para medir a performance da rede neuronal era fixado na variação paramétrica seguinte. Por exemplo, após a determinação do número óptimo de neurónios para a camada escondida, esse valor era fixado para os restantes testes.
 
 No caso do estudo do coeficiente de aprendizagem, tal não se aplica uma vez que este foi o 
-
-
+\begin{table}[!h]
+\centering
+	\caption{Tabela de regras do controlador difuso de 5 termos}
+	\label{results}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline 
+		\textbf{Nº de termos} & \textbf{Funções} & \textbf{Operadores} & \textbf{Desfuzificação} & \textbf{Média} & \textbf{Desvio-Padrão} \\
+		\hline
+		3 terms & \texttt{trimf} & \texttt{algebraic} & \texttt{centroid} & 86.627 & 3.624 \\
+		\hline
+		3 terms & \texttt{trimf} & \texttt{algebraic} & \texttt{bisector} & 83.846 & 2.199 \\
+		\hline
+		3 terms & \texttt{trimf} & \texttt{zadeh} & \texttt{centroid} & 74.824 & 0.593 \\
+		\hline
+		3 terms & \texttt{trimf} & \texttt{zadeh} & \texttt{bisector} & 74.204 & 0.652 \\
+		\hline
+		3 terms & \texttt{gauss} & \texttt{algebraic} & \texttt{centroid} & 73.320 & 0.499 \\
+		\hline
+		3 terms & \texttt{gauss} & \texttt{algebraic} & \texttt{bisector} & 85.331 & 3.419 \\
+		\hline
+		3 terms & \texttt{gauss} & \texttt{zadeh} & \texttt{centroid} & 73.121 & 0.574 \\
+		\hline
+		3 terms & \texttt{gauss} & \texttt{zadeh} & \texttt{bisector} & 73.377 & 0.464 \\
+		\hline
+		5 terms & \texttt{trimf} & \texttt{algebraic} & \texttt{centroid} & 107.419 & 0.79 \\
+		\hline
+		5 terms & \texttt{trimf} & \texttt{algebraic} & \texttt{bisector} & 108.633 & 1.591 \\
+		\hline
+		5 terms & \texttt{trimf} & \texttt{zadeh} & \texttt{centroid} & 103.604 & 0.813 \\
+		\hline
+		5 terms & \texttt{trimf} & \texttt{zadeh} & \texttt{bisector} & 104.01 & 1.747 \\
+		\hline
+		5 terms & \texttt{gauss} & \texttt{algebraic} & \texttt{centroid} & 100.416 & 0.516 \\
+		\hline
+		5 terms & \texttt{gauss} & \texttt{algebraic} & \texttt{bisector} & 114.191 & 0.947 \\
+		\hline
+		5 terms & \texttt{gauss} & \texttt{zadeh} & \texttt{centroid} & 93.625 & 0.525 \\
+		\hline
+		5 terms & \texttt{gauss} & \texttt{zadeh} & \texttt{bisector} & 106.071 & 1.7 \\
+		\hline
+	\end{tabular} 
+	%\vspace{-1cm}
+\end{table}
 
 \clearpage
 \section{Conclusão}
