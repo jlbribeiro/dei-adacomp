@@ -21,7 +21,11 @@ for runs=1:N_RUNS
     U = zeros(N,1);         % Input (Power)
 
     %---------------------------- Controlador
-    controller = readfis('controlador_5');
+    controller = readfis(CONTROLLER);
+    
+    if runs == 1
+        disp(controller.name);
+    end
 
     for k=1:N
 
