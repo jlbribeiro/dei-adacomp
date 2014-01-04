@@ -1,10 +1,12 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{color}
 
 \newenvironment{text-blue}{\color{blue}}{}
 \newenvironment{text-red}{\color{red}}{}
+
 
 \begin{document}
 
@@ -97,10 +99,10 @@ Cada uma destas está representada, respectivamente, pelas figuras~\ref{trimf_3}
 \subsection{Base de Regras}
 \indent \indent O conjunto de regras que gerem as acções a tomar em função das entradas foi feito com especial cuidado uma vez que, entre outros factores, a definição das regras tem impacto na performance do sistema difuso.
 
-O grupo decidiu implementar dois controladores, e definiu cada um da seguinte forma:
-\begin{itemize}
-\item \textbf{Controlador de 3 termos} \\
-Para este controlador existem as três variáveis linguísticas mencionadas acima ($E$,$\Delta E$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
+Considerámos dois grupos distintos de controladores no que toca ao número de termos linguísticos considerados para as entradas e a saída: 3 e 5 termos. Descrevem-se em seguida as suas diferenças.
+
+\subsection{Controlador de 3 termos}
+\indent \indent Para este controlador existem as três variáveis linguísticas mencionadas acima ($E$,$\Delta E$,$\Delta U$) e cada uma destas variavéis tem três termos linguísticos (${N,Z,P}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{3_terms_fuzzy}.
 
@@ -109,22 +111,36 @@ A tabela de regras para este controlador está representada na tabela~\ref{3_ter
 	\caption{Tabela de regras do controlador difuso de 3 termos}
 	\label{3_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|}
+	\hline
+	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{ZO} & \textbf{P} \\ 
 	\hline 
-	$E$ $\backslash$ $\Delta E$ & \textbf{N} & \textbf{Z} & \textbf{P} \\ 
+	\textbf{N} & N & N & ZO \\ 
 	\hline 
-	\textbf{N} & N & N & Z \\ 
+	\textbf{ZO} & ZO & ZO & ZO \\ 
 	\hline 
-	\textbf{Z} & Z & Z & Z \\ 
-	\hline 
-	\textbf{P} & Z & P & P \\ 
+	\textbf{P} & ZO & P & P \\ 
 	\hline 
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
 
+Esta tabela traduz-se na seguinte lista de regras:
+\begin{itemize}
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} N>
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} N>
+	\item \texttt{IF} <E \texttt{is} N> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} N> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} P>
+	\item \texttt{IF} <E \texttt{is} P> \texttt{AND} <$\Delta E$ \texttt{is} P> \texttt{THEN} <$\Delta U$ \texttt{is} P>
+\end{itemize}
 
-\item \textbf{Controlador de 5 termos} \\
-Para este controlador existem as mesmas variáveis linguísticas e cada uma destas variavéis tem cinco termos linguísticos (${NG,NP,ZO,PP,PG}$).
+\clearpage
+
+\subsection{Controlador de 5 termos}
+\indent \indent Para este controlador existem as mesmas variáveis linguísticas e cada uma destas variavéis tem cinco termos linguísticos (${NG,NP,ZO,PP,PG}$).
 
 A tabela de regras para este controlador está representada na tabela~\ref{5_terms_fuzzy}.
 
@@ -133,14 +149,14 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\caption{Tabela de regras do controlador difuso de 5 termos}
 	\label{5_terms_fuzzy}
 	\begin{tabular}{|c|c|c|c|c|c|}
-	\hline 
-	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{Z} & \textbf{PP} & \textbf{PG} \\ 
+	\hline
+	$E$ $\backslash$ $\Delta E$ & \textbf{NG} & \textbf{NP} & \textbf{ZO} & \textbf{PP} & \textbf{PG} \\ 
 	\hline 
 	\textbf{NG} & NG & NG & NG & NP & NP \\ 
 	\hline 
 	\textbf{NP} & NP & NP & NP & NP & NG \\ 
 	\hline 
-	\textbf{ZO} & NP & Z & Z & Z & PP \\ 
+	\textbf{ZO} & NP & ZO & ZO & ZO & PP \\ 
 	\hline
 	\textbf{PP} & PG & PP & PP & PP & PP \\ 
 	\hline 
@@ -149,16 +165,44 @@ A tabela de regras para este controlador está representada na tabela~\ref{5_ter
 	\end{tabular} 
 	%\vspace{-1cm}
 \end{table}
+
+Esta tabela traduz-se na seguinte lista de regras:
+\begin{itemize}
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} NP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} NG>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} NP>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} ZO>
+	\item \texttt{IF} <E \texttt{is} ZO> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PP> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NG> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} NP> \texttt{THEN} <$\Delta U$ \texttt{is} PP>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} ZO> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PP> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
+	\item \texttt{IF} <E \texttt{is} PG> \texttt{AND} <$\Delta E$ \texttt{is} PG> \texttt{THEN} <$\Delta U$ \texttt{is} PG>
 \end{itemize}
 
 \clearpage
 
 \subsection{Método de Implicação e Agregação de Regras}
-Após a aplicação do \textit{fuzzy operator} e obtido o valor de verdade para o antecedente de cada regra, é necessário calcular o conjunto difuso correspondente a cada variável de saída usando esse valor, por regra. Uma das funções mais utilizadas neste processo é a função de \textbf{mínimo} (\texttt{min}), mas existem outras (nomeadamente a de \textbf{produto algébrico}, \texttt{prod}).
+\indent \indent Após a aplicação do \textit{fuzzy operator} e obtido o valor de verdade para o antecedente de cada regra, é necessário calcular o conjunto difuso correspondente a cada variável de saída usando esse valor, por regra. Uma das funções mais utilizadas neste processo é a função de \textbf{mínimo} (\texttt{min}), mas existem outras (nomeadamente a de \textbf{produto algébrico}, \texttt{prod}).
 
 Obtidos os conjuntos difusos por varíavel de saída por regra, surge a necessidade de agregar esses conjuntos num único conjunto difuso, naquilo que se denomina Agregação. Uma das funções mais utilizadas neste processo é a função de \textbf{máximo} (\texttt{max}); no entanto, são também utilizadas outras como a \textbf{soma algébrica} (\texttt{sum}) ou o \textbf{OR probabilístico} (\texttt{probor}).
 
-Para o nosso estudo paramétrico, decidimos definir dois conjuntos de funções a utilizar para as operações de \texttt{AND}, \texttt{OR}, \texttt{Implicação} e \texttt{Agregação}, como se apresenta na tabela \ref{and_or_imp_agg_table}.
+Para o nosso estudo paramétrico, decidimos definir dois conjuntos de funções a utilizar para as operações de \texttt{AND}, \texttt{OR}, \texttt{Implicação} e \texttt{Agregação}, como se apresenta na tabela~\ref{and_or_imp_agg_table}.
 
 \begin{table}[!h]
 \centering
@@ -176,10 +220,26 @@ Para o nosso estudo paramétrico, decidimos definir dois conjuntos de funções 
 	%\vspace{-1cm}
 \end{table}
 
-% Gráficos com os resultados. Análise e interpretação.
-\section{Estudo paramétrico}
-\indent \indent Nesta secção é explicada a metodologia de testes seguida para levar a cabo o estudo paramétrico e são apresentados os resultados desse estudo.
+\subsection{Desfuzificação}
+\indent \indent Para obter o valor final de variação de potência a induzir ao aquecedor, o conjunto difuso obtido após a fase agregação tem de ser desfuzificado, isto é, convertido num valor crespo.
 
+Para este processo, vários métodos são usados como o cálculo do centróide (\texttt{centroid}), a bissectriz (\texttt{bisector}) ou o menor/médio/maior dos máximos (\texttt{SOM}/\texttt{MOM}/\texttt{LOM}).
+
+Nos testes levados a cabo foram considerados os métodos de \texttt{centroid} e \texttt{bisector}.
+
+\clearpage
+% Gráficos com os resultados. Análise e interpretação.
+\section{Resultados}
+\indent \indent Nesta secção são apresentados os resultados obtidos, bem como as interpretações que se podem fazer a partir destes.
+
+A execução de cada teste foi repetida 30 vezes de forma a obter a média do critério de erro, bem como o desvio-padrão.
+
+O critério de erro utilizado pode ser calculando recorrendo à fórmula:
+\[
+	E = \frac{\displaystyle \sum_{k = 1}^{N}{(r_{k} - y_{k})^2} + \displaystyle \sum_{k = 1}^{N}{(u_{k} - u_{k-1})^2}}{N}
+\]
+
+De seguida são apresentados os resultados obtidos.
 \begin{table}[!h]
 \centering
 	\caption{Tabela de regras do controlador difuso de 5 termos}
