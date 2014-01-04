@@ -11,5 +11,5 @@ t = 0:T:(N*0.1-T);  % timeslots
 GAIN = 0.07;        % System gain (to multiply with the variation)
 SCALE_FACTOR = 0.02;
 CONTROLLER = 'controller';
-N_RUNS = 30;
+N_RUNS = 1;
 DEBUG = true;

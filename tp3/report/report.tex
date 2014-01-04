@@ -246,7 +246,7 @@ De seguida são apresentados os resultados obtidos.
 	\label{results}
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline 
-		\textbf{Nº de termos} & \textbf{Funções} & \textbf{Operadores} & \textbf{Desfuzificação} & \textbf{Média} & \textbf{Desvio-Padrão} \\
+		\textbf{Nº termos} & \textbf{F. Pertença} & \textbf{F. Inferência} & \textbf{Desfuzificação} & \textbf{Média} & \textbf{Desvio-Padrão} \\
 		\hline
 		3 terms & \texttt{trimf} & \texttt{algebraic} & \texttt{centroid} & 86.627 & 3.624 \\
 		\hline
@@ -284,28 +284,43 @@ De seguida são apresentados os resultados obtidos.
 	%\vspace{-1cm}
 \end{table}
 
+\section{Análise de Resultados}
+
+\subsection{Número de termos}
+\indent \indent No que diz respeito ao número de termos, os controladores que utilizam 3 termos linguísticos nas suas variáveis apresentam um desempenho claramente superior. Pensamos que estes resultados se justificam dada a maior simplicidade dos controladores de três termos. A maior complexidade introduzida pela adição de mais termos torna esses controladores mais sensíveis à definição das funções de pertença (forma e posição), bem como a tabela de regras. Como tal, o pior desempnho dos controladores de 5 termos pode ser justificado por uma incorrecta definição de qualquer um dos componentes anteriormente mencionados.
+
+\subsection{Tipo de Funções de Pertença}
+\indent \indent As funções gaussianas apresentaram melhores resultados que as triangulares em 5 dos 8 casos análogos. Esta ligeira superioridade leva-nos a concluir que as funções triangulares conseguem obter resultados aceitáveis e, ainda assim, ter um grau de complexidade mais baixo no que toca ao seu cálculo.
+
+\subsection{Funções de Inferência}
+\indent \indent O conjunto de funções que denominámos \texttt{zadeh} (min,max,min,max) teve claramente melhores resultados que o conjunto \texttt{algebraic} (prod,probor,prod,sum); as funções \texttt{zadeh} demonstraram-se assim mais adequadas para resolver o problema que nos foi proposto.
+
+\subsection{Desfuzificação}
+\indent \indent O conjunto de controladores que usam o método de desfuzificação \texttt{centroid} demonstrou-se superior ao conjunto de controladores cujo método era \texttt{bisector}, não só no número de vezes em que obteve um desempenho superior (6 dos 8 casos análogos), como também na magnitude da diferença do desempenho. Como tal, a complexidade computacional que é acrescida com a utilização deste método demonstra ser compensatória.
+
 \clearpage
 \section{Conclusão}
-\indent \indent Depois do estudo paramétrico efectuado o sistema difuso que obteve melhores resultados tinha um valor de erro/critério de \textbf{xxx}, para a entrada que nos foi fornecida para efeitos de avaliação.
+\indent \indent Depois do estudo paramétrico efectuado o sistema difuso que obteve melhores resultados tinha um valor de critério de erro de \textbf{73.121}, para a entrada que nos foi fornecida para efeitos de avaliação.
 
 Atingimos estes valores usando a seguinte parametrização:
 \begin{itemize}
 \item Factor de normalização: \textbf{0.02} para $E$, \textbf{0.01} para $\Delta E$, \textbf{100} para $\Delta U$
 \item Número de termos linguísticos: \textbf{3}
-\item Tipo de funções de pertença: %\textbf{Gaussianas}
+\item Tipo de funções de pertença: \textbf{Gaussianas}
 \item Base de regras: \textbf{Ver tabela~\ref{3_terms_fuzzy}}
-\item Mecanismo de inferência: % \textbf{zadeh}
-\item Método de desfuzificação: %\textbf{centroid}
+\item Mecanismo de inferência: \textbf{zadeh}
+\item Método de desfuzificação: \textbf{centroid}
 \end{itemize}
 
-O gráfico que representa os valores da referência, temperatura e controlo, para o melhor sistema difuso obtido, está exibido na figura ~\ref{best_fuzzy_results}. Os valores de entrada que nos foram fornecidos tiveram em conta um intervalo de tempo de 10 segundos e um intervalo de amostragem de 0.1s.
+O gráfico que representa os valores da referência, temperatura e controlo, para o melhor sistema difuso obtido, está exibido na figura~\ref{best_fuzzy_network}. Os valores de entrada que nos foram fornecidos tiveram em conta um intervalo de tempo de 10 segundos e um intervalo de amostragem de 0.1s.
 
-%\begin{figure}[h!]
-%  \centering
-%  \includegraphics[width=5in]{figures/best_fuzzy_network}
-%  \caption{Valores de Referência, Temperatura e potência para a melhor rede difusa}
-%   \label{best_fuzzy_network}
-%\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=5in]{figures/best_fuzzy_network}
+  \caption{Valores de Referência, Temperatura e potência para a melhor rede difusa}
+  \label{best_fuzzy_network}
+\end{figure}
 
+Os sistemas difusos demonstraram-se de simples implementação e, ao ser possível interpretar o seu mecanismo interno e resultados, fica subjacente a ideia de que devem ser alternativas a considerar em situações em que o conhecimento empírico do problema é suficiente para alimentar o mecanismo de inferência.
 
 \end{document}
